@@ -177,7 +177,7 @@ pplx::task<std::unordered_map<std::string,bool>> loadCharacterTalents(std::strin
 	return characterTalents; 
 }
 
-pplx::task<void> loadCharacter(std::string& charName, std::string server, playerClass* pClass) {
+void loadCharacter(std::string& charName, std::string server, playerClass*& pClass) {
 	pplx::task<playerClass*> pClassTask = loadCharacterStats(charName, server);
 	pplx::task<std::unordered_map<std::string, bool>> pTalentTask = loadCharacterTalents(charName, server);
 	pClassTask.wait();
@@ -190,6 +190,8 @@ pplx::task<void> loadCharacter(std::string& charName, std::string server, player
 	for (std::unordered_map<std::string, double>::const_iterator iter = stats.cbegin(); iter != stats.cend(); iter++) {
 		std::cout << iter->first << ": " << iter->second << std::endl;
 	}
+	
+
 }
 
 int main() {
@@ -197,7 +199,7 @@ int main() {
 	std::string server = "Illidan";
 	std::string charName = "Mathendris";
 	playerClass* pClass = nullptr;
-	
+	loadCharacter(charName, server, pClass);
 	delete(pClass);
 
 }
